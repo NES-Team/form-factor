@@ -40,13 +40,15 @@
 
 	const SERVERADDRESS = "http://127.0.0.1:3000"
 
+	let sensorValue = 0.0;
+
 	// use XML HTTP request to grab data from the server (central)
 	let xmlhttp = new XMLHttpRequest()
 	xmlhttp.onreadystatechange = function () {
 		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 			let responseText = JSON.parse(xmlhttp.responseText);
 			let descriptor = responseText.descriptor;
-			let sensorValue = parseFloat(responseText.sensorValue);
+			sensorValue = parseFloat(responseText.sensorValue);
 
 			// use d3 to visualize sensor value as the web page background color
 			let colorValue = Math.max(0, Math.min((sensorValue + 1) * 0.5, 255)) * 255
