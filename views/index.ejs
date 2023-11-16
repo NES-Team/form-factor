@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<h1>IMU Sensor Values</h1>
+</head>
+
+<body>
+	<h2>Accelerometer</h2>
+	<h3>ax:</h3>
+	<div class = "ax" style="width: 200px; height: 20px; color: white;">
+		ax
+	</div>
+	<h3>ay:</h3>
+	<div class = "ay" style="width: 200px; height: 20px; color: white;">
+		ay
+	</div>
+	<h3>az:</h3>
+	<div class = "az" style="width: 200px; height: 20px; color: white;">
+		az
+	</div>
+	<h2>Gyroscope</h2>
+	<h3>gx:</h3>
+	<div class = "gx" style="width: 200px; height: 20px; color: white;">
+		gx
+	</div>
+	<h3>gy:</h3>
+	<div class = "gy" style="width: 200px; height: 20px; color: white;">
+		gy
+	</div>
+	<h3>gz:</h3>
+	<div class = "gz" style="width: 200px; height: 20px; color: white;">
+		gz
+	</div>
+</body>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+
+<script type="application/javascript">
+
+	const SERVERADDRESS = "http://127.0.0.1:3000"
+
+	// use XML HTTP request to grab data from the server (central)
+	let xmlhttp = new XMLHttpRequest()
+	xmlhttp.onreadystatechange = function () {
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			let responseText = JSON.parse(xmlhttp.responseText);
+			let descriptor = responseText.descriptor;
+			let sensorValue = parseFloat(responseText.sensorValue);
+
+			// use d3 to visualize sensor value as the web page background color
+			let colorValue = Math.max(0, Math.min((sensorValue + 1) * 0.5, 255)) * 255
+			console.log(`.${descriptor}:`, colorValue)
+			let green = colorValue
+			let red = 255 - colorValue
+			let color = "rgba(" + red + ", " + green + ", 0, 1)"
+			d3.select(`.${descriptor}`).style("background-color", color)
+			d3.select(`.${descriptor}`).text(sensorValue)
+		}
+	}
+
+	// periodically grab data
+	let getData = () => {
+		xmlhttp.open("POST", SERVERADDRESS, true)
+		xmlhttp.setRequestHeader("Content-type", "application/json")
+		xmlhttp.send("")
+		setTimeout(() => {
+			getData()
+		}, 10)
+	}
+
+	getData()
+
+</script>
+
+</html>
