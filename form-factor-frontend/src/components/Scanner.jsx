@@ -5,7 +5,7 @@ import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import { useEffect, useState} from 'react'
 
-export default function Scanner({scanning, setScanning, badform}) {
+export default function Scanner({scanning, setScanning, badFormShared}) {
   const [processing, setProcessing] = useState(false);
   const [doneProcess, setDoneProcess] = useState(false);
 
@@ -37,6 +37,10 @@ export default function Scanner({scanning, setScanning, badform}) {
 
   },[processing])
 
+  useEffect(()=>{
+    console.log(badFormShared)
+  }, [badFormShared])
+
 
   return (
     <div>
@@ -54,10 +58,9 @@ export default function Scanner({scanning, setScanning, badform}) {
         </Alert>
       )}
 
-      {scanning && badform && (
-        <Alert severity="danger">
+      {scanning && badFormShared && (
+        <Alert severity="error">
           <AlertTitle>bad form detected</AlertTitle>
-          <CircularProgress size={20} />
         </Alert>
       )}
 

@@ -6,10 +6,11 @@ const [AX, AY, AZ, GX, GY, GZ] = [0,1,2,3,4,5,6,7]
 
 
 
-export default function Connection({badform, setBadForm}) {
+export default function Connection({setBadFormShared, badFormShared}) {
   const [sensorData, setSensorData] = useState({ descriptor: '', sensorValue: NaN });
   const [socket, setSocket] = useState(null)
   const [stateArr, setStateArr] = useState([0,0,0,0,0,0])
+  const [flag, setFlag] = useState(true)
   let timeoutId;
 
   function descriptorParser() {
@@ -41,27 +42,31 @@ export default function Connection({badform, setBadForm}) {
     stateArr[i] = sensorData.sensorValue
     
     // logic for bad form
-    if (i == AY && sensorData.sensorValue > 0.7) {
-      setBadForm(true)
-      resetTimer()
+    if (i == GX && sensorData.sensorValue > 30) {
+      setBadFormShared(true)
+      setFlag(!flag)
+      console.log("BAD FORM")
     }
-  }
-
-  function resetTimer() {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => {
-      setBadForm(false);
-    }, 2000);
   }
 
 
 
   // if trigger has not been set within 2 seconds, set bad form to false
   useEffect(() => {
-    if (badForm) {
-      resetTimer();
+    const startTimer = () => {
+      timeoutId = setTimeout(()=>{
+        setBadFormShared(false)
+
+        startTimer()
+      }, 2000)
     }
-  }, [badForm]);
+
+    startTimer()
+
+    return ()=> {
+      clearTimeout(timeoutId)
+    }
+  }, [flag]);
 
   useEffect(() => {
     // Establish WebSocket connection
@@ -76,7 +81,6 @@ export default function Connection({badform, setBadForm}) {
       const receivedData = JSON.parse(event.data);
       setSensorData(receivedData); // Update state with received sensor data
       descriptorParser(stateArr, receivedData.descriptor, receivedData.sensorValue)
-      console.log(receivedData)
     };
 
     ws.onerror = (error) => {
@@ -93,8 +97,6 @@ export default function Connection({badform, setBadForm}) {
   return (
     <div className="App">
       <h1>IMU Sensor Data</h1>
-      {/* <p>Descriptors: {sensorData.descriptor}</p>
-      <p>Sensor Value: {sensorData.sensorValue}</p> */}
       <p>ax: {stateArr[AX]}</p>
       <p>ay: {stateArr[AY]}</p>
       <p>az: {stateArr[AZ]}</p>
