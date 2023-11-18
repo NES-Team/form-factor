@@ -5,7 +5,7 @@ import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import { useEffect, useState} from 'react'
 
-export default function Scanner({scanning, setScanning}) {
+export default function Scanner({scanning, setScanning, badform}) {
   const [processing, setProcessing] = useState(false);
   const [doneProcess, setDoneProcess] = useState(false);
 
@@ -50,6 +50,13 @@ export default function Scanner({scanning, setScanning}) {
       {scanning && (
         <Alert severity="success">
           <AlertTitle>Scanning in progress</AlertTitle>
+          <CircularProgress size={20} />
+        </Alert>
+      )}
+
+      {scanning && badform && (
+        <Alert severity="danger">
+          <AlertTitle>bad form detected</AlertTitle>
           <CircularProgress size={20} />
         </Alert>
       )}
