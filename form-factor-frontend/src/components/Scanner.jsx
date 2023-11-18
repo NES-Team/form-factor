@@ -3,10 +3,12 @@ import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
+import { useEffect, useState} from 'react'
 
-export default function Scanner() {
-  const [scanning, setScanning] = React.useState(false);
-  const [processing, setProcessing] = React.useState(false);
+export default function Scanner({scanning, setScanning}) {
+  const [processing, setProcessing] = useState(false);
+  const [doneProcess, setDoneProcess] = useState(false);
+
 
   const startScanning = () => {
     setScanning(true);
@@ -19,8 +21,22 @@ export default function Scanner() {
   };
 
   const stopProcessing = () => {
-    setProcessing(false);
+    setProcessing(false);;
+    setDoneProcess(false)
   };
+
+  useEffect(() => {
+
+    if (processing) {
+      const timer = setTimeout(()=>{
+        setDoneProcess(true)
+      }, 3000)
+
+      return () =>clearTimeout(timer)
+    }
+
+  },[processing])
+
 
   return (
     <div>
@@ -32,14 +48,14 @@ export default function Scanner() {
       </Button>
 
       {scanning && (
-        <Alert severity="warning">
+        <Alert severity="success">
           <AlertTitle>Scanning in progress</AlertTitle>
           <CircularProgress size={20} />
         </Alert>
       )}
 
-      {processing && (
-        <Alert severity="success">
+      {processing && !doneProcess && (
+        <Alert severity="info">
           <AlertTitle>Processing...</AlertTitle>
           This might take a moment.
         </Alert>
@@ -53,10 +69,10 @@ export default function Scanner() {
       )}
 
       {/* Conditionally render processing alert */}
-      {processing && (
-        <Alert severity="info" onClose={stopProcessing}>
+      {processing && doneProcess && (
+        <Alert severity="success" onClose={stopProcessing}>
           <AlertTitle>Processing completed</AlertTitle>
-          Scanning results available.
+          You suck at exercising!.
         </Alert>
       )}
     </div>

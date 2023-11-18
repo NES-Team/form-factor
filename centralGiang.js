@@ -20,11 +20,11 @@ let descriptor = "";
 let clients = []; // Store connected WebSocket clients
 
 wss.on('connection', (ws) => {
-  console.log('WebSocket client connected');
+  // console.log('WebSocket client connected');
   clients.push(ws);
 
   ws.on('close', () => {
-    console.log('WebSocket client disconnected');
+    // console.log('WebSocket client disconnected');
     clients = clients.filter((client) => client !== ws);
   });
 });
@@ -69,7 +69,7 @@ let readData = async (characteristic) => {
   }, 10);
 };
 
-const port = 3000;
+const port = 8000;
 
 app.set('view engine', 'ejs');
 
