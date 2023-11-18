@@ -8,8 +8,7 @@ function App() {
   const [sliderVal, setSliderVal] = useState(50);
   const [exercise, setExercise] = useState('bicep');
   const [scanning, setScanning] = useState(false);
-  const [badForm, setBadForm] = useState(false)
-
+  const [badFormShared, setBadFormShared] = useState(false);
 
   return (
     <Box sx={{padding: 30, justifyContent: 'center', alignItems: 'center', display: 'flex', flexDirection: 'column'}}>
@@ -21,12 +20,12 @@ function App() {
       </Box>
 
       <Box sx={{ width: '80%', justifyContent: 'center', alignItems: 'center' }}>
-        <Scanner scanning={scanning} setScanning={setScanning} badform={badForm}/>
+        <Scanner scanning={scanning} setScanning={setScanning} badFormShared={badFormShared}/>
       </Box>
 
       {scanning && 
       <>
-        <Connection badform={badForm}  setBadForm={setBadForm}/>
+        <Connection badFormShared={badFormShared} setBadFormShared={setBadFormShared}/>
       </>}
     </Box>
     
