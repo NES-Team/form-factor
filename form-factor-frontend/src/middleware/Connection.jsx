@@ -6,10 +6,11 @@ const [AX, AY, AZ, GX, GY, GZ] = [0,1,2,3,4,5,6,7]
 
 
 
-export default function Connection() {
+export default function Connection({badform, setBadForm}) {
   const [sensorData, setSensorData] = useState({ descriptor: '', sensorValue: NaN });
-  const [socket, setSocket] = useState(null);
+  const [socket, setSocket] = useState(null)
   const [stateArr, setStateArr] = useState([0,0,0,0,0,0])
+  let timeoutId;
 
   function descriptorParser() {
 
@@ -38,8 +39,29 @@ export default function Connection() {
     }
   
     stateArr[i] = sensorData.sensorValue
+    
+    // logic for bad form
+    if (i == AY && sensorData.sensorValue > 0.7) {
+      setBadForm(true)
+      resetTimer()
+    }
   }
-  
+
+  function resetTimer() {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+      setBadForm(false);
+    }, 2000);
+  }
+
+
+
+  // if trigger has not been set within 2 seconds, set bad form to false
+  useEffect(() => {
+    if (badForm) {
+      resetTimer();
+    }
+  }, [badForm]);
 
   useEffect(() => {
     // Establish WebSocket connection
