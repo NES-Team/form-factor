@@ -40,25 +40,47 @@
 
 	const SERVERADDRESS = "http://127.0.0.1:3000"
 
-	let sensorValue = 0.0;
+	let sensorData = [['ax', 'ay', 'az', 'gx', 'gy', 'gz']];
+	let readSet = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
 
 	// use XML HTTP request to grab data from the server (central)
 	let xmlhttp = new XMLHttpRequest()
 	xmlhttp.onreadystatechange = function () {
 		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-			let responseText = JSON.parse(xmlhttp.responseText);
+			let responseText = xmlhttp.responseText;
 			let descriptor = responseText.descriptor;
-			sensorValue = parseFloat(responseText.sensorValue);
+			
+			readSet[0] = parseFloat(JSON.parse(responseText).ax);
+			readSet[1] = parseFloat(JSON.parse(responseText).ay);
+			readSet[2] = parseFloat(JSON.parse(responseText).az);
+			readSet[3] = parseFloat(JSON.parse(responseText).gx);
+			readSet[4] = parseFloat(JSON.parse(responseText).gy);
+			readSet[5] = parseFloat(JSON.parse(responseText).gz);
 
-			// use d3 to visualize sensor value as the web page background color
-			let colorValue = Math.max(0, Math.min((sensorValue + 1) * 0.5, 255)) * 255
-			console.log(`.${descriptor}:`, colorValue)
-			let green = colorValue
-			let red = 255 - colorValue
-			let color = "rgba(" + red + ", " + green + ", 0, 1)"
-			d3.select(`.${descriptor}`).style("background-color", color)
-			d3.select(`.${descriptor}`).text(sensorValue)
+			sensorData.push(readSet.join(','));
+
+			if(sensorData.length % 1000 == 0){
+				download();
+			}
 		}
+	}
+
+	function download(){
+		const blob = new Blob([sensorData.join('\n')], { type: 'text/csv' }); 
+  
+		// Creating an object for downloading url 
+		const url = window.URL.createObjectURL(blob) 
+		
+		// Creating an anchor(a) tag of HTML 
+		const a = document.createElement('a') 
+
+		// Passing the blob downloading url  
+		a.setAttribute('href', url) 
+
+		// Setting the anchor tag attribute for downloading 
+		// and passing the download file name 
+		a.setAttribute('download', 'imu_data.csv'); 
+		a.click();
 	}
 
 	// periodically grab data

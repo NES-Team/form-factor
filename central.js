@@ -14,6 +14,9 @@ const characteristicDescriptors = {
 }
 
 let sensorValue = NaN
+let readCount = 0
+let readSet = [0, 0, 0, 0, 0, 0]
+// let readValue = [['Acc_x', 'Acc_y', 'Acc_z', 'Gyro_x', 'Gyro_y', 'Gyro_z']];
 let descriptor = ""
 
 noble.on('stateChange', async (state) => {
@@ -41,6 +44,13 @@ let readData = async (characteristic) => {
     const value = (await characteristic.readAsync());
     descriptor = characteristicDescriptors[characteristic.uuid];
     sensorValue = value.readFloatLE(0);
+    readSet[readCount] = sensorValue;
+    readCount++;
+
+    if (readCount == 6){
+        readCount = 0;
+    }
+    
     console.log(`${descriptor}:`, sensorValue);
 
     // read data again in t milliseconds
@@ -48,6 +58,8 @@ let readData = async (characteristic) => {
         readData(characteristic)
     }, 10);
 }
+
+
 
 //
 // hosting a web-based front-end and respond requests with sensor data
@@ -69,7 +81,12 @@ app.post('/', (req, res) => {
     });
     res.end(JSON.stringify({
         descriptor: descriptor,
-        sensorValue: sensorValue
+        ax: readSet[0],
+        ay: readSet[1],
+        az: readSet[2],
+        gx: readSet[3],
+        gy: readSet[4],
+        gz: readSet[5],
     }))
 })
 
