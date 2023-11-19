@@ -52,10 +52,11 @@ export default function StrictnessSlider({value, setValue, defaultValue = 50}) {
                 defaultValue={defaultValue}
                 aria-label="Default"
                 valueLabelDisplay="auto"
-                sx={{
-                    color: 'primary.main', // Change color here
+                // sx={{
+                //     color: 'primary.main', // Change color here
 
-                }}
+                // }}
+                color="success"
                 marks={marks}
                 value={value}
                 onChange={handleChange}

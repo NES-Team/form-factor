@@ -1,10 +1,11 @@
 import * as React from 'react';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
-import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
-import RowingIcon from '@mui/icons-material/Rowing';
+import KeyboardIcon from '@mui/icons-material/Keyboard'
 import { Box, Typography } from '@mui/material';
+
+const bicep = require('./bicepPng.png')
+const jack = require('./jackPng.png')
 
 export default function ExerciseToggleButtons({ setExercise, exercise, size = '10rem' }) {
   const handleExercise = (
@@ -39,13 +40,14 @@ export default function ExerciseToggleButtons({ setExercise, exercise, size = '1
             aria-label="exercise type"
             >
             <ToggleButton value="bicep" aria-label="bicep curl">
-                <FitnessCenterIcon sx={{ fontSize: size }}/>
+                    <img src={bicep} alt="bicep curl" style={{ width: size, height: size }} />
+                
             </ToggleButton>
-            <ToggleButton value="pushup" aria-label="pushup">
-                <DirectionsRunIcon sx={{ fontSize: size }}/>
+            <ToggleButton value="jack" aria-label="pushup">
+                    <img src={jack} alt="jumping jack" style={{ width: size, height: size }} />
             </ToggleButton>
-            <ToggleButton value="rowing" aria-label="rowing">
-                <RowingIcon sx={{ fontSize: size }}/>
+            <ToggleButton value="typing" aria-label="rowing">
+                <KeyboardIcon sx={{ fontSize: size }}/>
             </ToggleButton>
             </ToggleButtonGroup>
         </Box>
