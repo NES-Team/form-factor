@@ -6,7 +6,11 @@
 </head>
 
 <body>
-	<h2>Accelerometer</h2>
+	<h2>Result:</h2>
+	<div class = "result" style="width: 200px; height: 20px">
+		<p class="result_msg">Standby</p>
+	</div>
+	<!-- <h2>Accelerometer</h2>
 	<h3>ax:</h3>
 	<div class = "ax" style="width: 200px; height: 20px; color: white;">
 		ax
@@ -31,7 +35,27 @@
 	<h3>gz:</h3>
 	<div class = "gz" style="width: 200px; height: 20px; color: white;">
 		gz
+	</div> -->
+
+	<div style="width: 200px; height: 20px; color: white;"></div>
+
+	<div class="workouts">
+		<button onclick="selectWorkout(0)" style="background-color: lightgreen;" class="bicep">
+			Bicep Curls
+		</button>
+		<button onclick="selectWorkout(3)" style="background-color: lightgray;" class="jack">
+			Jumping Jacks
+		</button>
 	</div>
+
+	<div style="width: 200px; height: 20px; color: white;"></div>
+
+	<div>
+		<button onclick="activate()" style="background-color: lightgray;" class="starter">
+			Start
+		</button>
+	</div>
+
 </body>
 
 <script src="https://d3js.org/d3.v7.min.js"></script>
@@ -39,14 +63,24 @@
 <script type="application/javascript">
 
 	const SERVERADDRESS = "http://127.0.0.1:3000"
+	const workoutDescriptors = {
+		0: ".bicep",
+		1: "",
+		2: "",
+		3: ".jack",
+		4: "",
+		5: "",
+	}
 
 	let sensorData = [['ax', 'ay', 'az', 'gx', 'gy', 'gz']];
 	let readSet = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
+	let currentWorkout = 0;
+	let active = false;
 
 	// use XML HTTP request to grab data from the server (central)
 	let xmlhttp = new XMLHttpRequest()
 	xmlhttp.onreadystatechange = function () {
-		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200 && active) {
 			let responseText = xmlhttp.responseText;
 			let descriptor = responseText.descriptor;
 			
@@ -59,10 +93,41 @@
 
 			sensorData.push(readSet.join(','));
 
-			if(sensorData.length % 1000 == 0){
-				download();
-			}
+			// if(sensorData.length % 1000 == 0){
+			// 	download();
+			// }
 		}
+	}
+
+	function activate(){
+		if(active){
+			d3.select(".starter").style("background-color", "lightgray");
+			d3.select(".starter").text("Start");
+			active = false;
+			download();
+		}
+		else{
+			d3.select(".starter").style("background-color", "lightgreen");
+			d3.select(".starter").text("Stop");
+			active = true;
+		}
+	}
+
+	function selectWorkout(mode){
+		d3.select(workoutDescriptors[currentWorkout]).style("background-color", "lightgray");
+		currentWorkout = mode;
+
+		d3.select(workoutDescriptors[currentWorkout]).style("background-color", "lightgreen");
+	}
+
+	function fail(){
+		d3.select(".result_msg").text("FAILURE");
+		d3.select(".result").style("background-color", "red");
+	}
+
+	function success(){
+		d3.select(".result_msg").text("SUCCESS");
+		d3.select(".result").style("background-color", "green");
 	}
 
 	function download(){
@@ -81,6 +146,8 @@
 		// and passing the download file name 
 		a.setAttribute('download', 'imu_data.csv'); 
 		a.click();
+
+		sensorData = [['ax', 'ay', 'az', 'gx', 'gy', 'gz']];
 	}
 
 	// periodically grab data
