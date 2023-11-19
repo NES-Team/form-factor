@@ -72,10 +72,11 @@
 		5: "",
 	}
 
-	let sensorData = [['ax', 'ay', 'az', 'gx', 'gy', 'gz']];
-	let readSet = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
+	let sensorData = [['time', 'ax', 'ay', 'az', 'gx', 'gy', 'gz']];
+	let readSet = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
 	let currentWorkout = 0;
 	let active = false;
+	let time = 0.0;
 
 	// use XML HTTP request to grab data from the server (central)
 	let xmlhttp = new XMLHttpRequest()
@@ -84,12 +85,13 @@
 			let responseText = xmlhttp.responseText;
 			let descriptor = responseText.descriptor;
 			
-			readSet[0] = parseFloat(JSON.parse(responseText).ax);
-			readSet[1] = parseFloat(JSON.parse(responseText).ay);
-			readSet[2] = parseFloat(JSON.parse(responseText).az);
-			readSet[3] = parseFloat(JSON.parse(responseText).gx);
-			readSet[4] = parseFloat(JSON.parse(responseText).gy);
-			readSet[5] = parseFloat(JSON.parse(responseText).gz);
+			readSet[0] = time;
+			readSet[1] = parseFloat(JSON.parse(responseText).ax);
+			readSet[2] = parseFloat(JSON.parse(responseText).ay);
+			readSet[3] = parseFloat(JSON.parse(responseText).az);
+			readSet[4] = parseFloat(JSON.parse(responseText).gx);
+			readSet[5] = parseFloat(JSON.parse(responseText).gy);
+			readSet[6] = parseFloat(JSON.parse(responseText).gz);
 
 			sensorData.push(readSet.join(','));
 
@@ -105,11 +107,18 @@
 			d3.select(".starter").text("Start");
 			active = false;
 			download();
+			time = 0.0;
 		}
 		else{
 			d3.select(".starter").style("background-color", "lightgreen");
 			d3.select(".starter").text("Stop");
 			active = true;
+		}
+	}
+
+	function timeIncrement(){
+		if(active){
+			time += 0.1;
 		}
 	}
 
@@ -157,9 +166,10 @@
 		xmlhttp.send("")
 		setTimeout(() => {
 			getData()
-		}, 10)
+		}, 100)
 	}
 
+	setInterval(timeIncrement, 100);
 	getData()
 
 </script>

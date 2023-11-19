@@ -1,0 +1,27 @@
+Bicep Curl:
+    Should only see gyroscope for z axis.
+        Positive gz means curling into self, Negative gz means straightening arm.
+        Use gz for speed of bicep curl, use gx and gy for bad form.
+    Accelerometer for orientation
+        Arm should only be moving along ax and az.
+        High ax and low az at start
+        Low ax and high az at top of curl
+
+
+
+Jumping Jacks:
+    Should only use gyroscope for y axis.
+        Positive gy for arm going up, negative gy for arm going down
+    Accelerometer for orientation: only ax and ay should change?
+        Arms should mostly move along ax and ay.
+        Low ax at top, High ax at standing.
+        Low ay in middle of arm swing, high ay at top and bottom of arm swing.
+
+Sit-ups (palms flat on ground):
+    Should only use gyroscope for x axis.
+        Positive gx for sitting up, negative gx for lying back down
+    Accelerometer for orientation:
+        Accelerometer should only see major change along x axis.
+        ax increases sitting up and decreases sitting down
+        ax should never be negative
+        
