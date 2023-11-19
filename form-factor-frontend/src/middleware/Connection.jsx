@@ -1,5 +1,6 @@
-import { state } from '@abandonware/noble';
 import { useEffect, useState } from 'react';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+
 
 const [AX, AY, AZ, GX, GY, GZ] = [0,1,2,3,4,5,6,7]
 
@@ -94,16 +95,54 @@ export default function Connection({setBadFormShared, badFormShared}) {
     };
   }, [socket]);
 
-  return (
-    <div className="App">
-      <h1>IMU Sensor Data</h1>
-      <p>ax: {stateArr[AX]}</p>
-      <p>ay: {stateArr[AY]}</p>
-      <p>az: {stateArr[AZ]}</p>
-      <p>gx: {stateArr[GX]}</p>
-      <p>gy: {stateArr[GY]}</p>
-      <p>gz: {stateArr[GZ]}</p>
+  function createData(name, x, y ) {
+    return { name, x: Number(x.toFixed(4)), y: Number(y.toFixed(4)), };
+  }
 
-    </div>
+  const rows = [
+    createData('x-axis', stateArr[AX], stateArr[GX]),
+    createData('y-axis',  stateArr[AY], stateArr[GY]),
+    createData('z-axis',  stateArr[AZ], stateArr[GZ]),
+  ];
+
+  return (
+    // <div className="App">
+    //   <h1>IMU Sensor Data</h1>
+    //   <p>ax: {stateArr[AX]}</p>
+    //   <p>ay: {stateArr[AY]}</p>
+    //   <p>az: {stateArr[AZ]}</p>
+    //   <p>gx: {stateArr[GX]}</p>
+    //   <p>gy: {stateArr[GY]}</p>
+    //   <p>gz: {stateArr[GZ]}</p>
+
+    // </div>
+    <>
+    <TableContainer component={Paper}>
+    <Table sx={{ minWidth: 300 }} aria-label="simple table">
+      <TableHead>
+        <TableRow>
+          <TableCell sx={{fontWeight: 600, fontSize: 20}}>IMU Data </TableCell>
+          <TableCell align="right" sx={{fontWeight: 600, fontSize: 20}}>Accelerometer </TableCell>
+          <TableCell align="right" sx={{fontWeight: 600, fontSize: 20}}>gyroscope</TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {rows.map((row) => (
+          <TableRow
+            key={row.name}
+            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+          >
+            <TableCell component="th" scope="row" sx={{fontWeight: 600, fontSize: 20}}>
+              {row.name}
+            </TableCell>
+            <TableCell align="right" sx={{fontSize: 16}}>{row.x}</TableCell>
+            <TableCell align="right" sx={{fontSize: 16}}>{row.y}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  </TableContainer>
+  <button onClick={() => setBadFormShared(true)}>bad form</button> 
+  </>
   );
 }
