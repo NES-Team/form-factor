@@ -7,7 +7,11 @@ Bicep Curl:
         High ax and low az at start
         Low ax and high az at top of curl
 
+Lateral Raises:
 
+
+Leg Press:
+    
 
 Jumping Jacks:
     Should only use gyroscope for y axis.
@@ -24,4 +28,10 @@ Sit-ups (palms flat on ground):
         Accelerometer should only see major change along x axis.
         ax increases sitting up and decreases sitting down
         ax should never be negative
+
+Ab-crunches:
+
+Push-ups:
+
+
         

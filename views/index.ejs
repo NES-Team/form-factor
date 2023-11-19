@@ -85,7 +85,7 @@
 			let responseText = xmlhttp.responseText;
 			let descriptor = responseText.descriptor;
 			
-			readSet[0] = time;
+			readSet[0] = time.toFixed(1);
 			readSet[1] = parseFloat(JSON.parse(responseText).ax);
 			readSet[2] = parseFloat(JSON.parse(responseText).ay);
 			readSet[3] = parseFloat(JSON.parse(responseText).az);
