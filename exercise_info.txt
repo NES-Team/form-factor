@@ -58,9 +58,9 @@ Ab-crunches:
  
 Push-ups:
     Accelerometer
-        ax near 0.25 at bottom, and near -0.1 at top
-        ay near 0 at bottom, and near 0 at top
-        az near -1 at bottom and near -1 at top
+        ax near 0 at bottom, and near -0.3 at top
+        ay near -0.4 at bottom, and near -0.3 at top
+        az near 1 at bottom and near -1 at top
 
     gyroscope
         gx is less than 20 mag
