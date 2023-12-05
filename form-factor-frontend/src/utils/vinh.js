@@ -18,9 +18,9 @@ export default function badForm({ax, ay, az, gx, gy, gz, exercise}){
             if(
                 gx < -60 || gx > 60 ||
                 gy < -100 || gy > 100 ||
-                gz < -50 || gz > 50 || 
+                gz < -50 || gz > 50 ||
                 ax > 0.6 || // could be cut
-                ay < -0.4 || ay > 0.1 || 
+                ay < -0.4 || ay > 0.1 ||
                 az > 0.1
                 ){
                 return false
@@ -51,7 +51,7 @@ export default function badForm({ax, ay, az, gx, gy, gz, exercise}){
             }
             break
 
-        case "ab":
+        case "crunch":
             if(
                 gx < -60 || gx > 60 ||
                 gy < -100 || gy > 100 ||

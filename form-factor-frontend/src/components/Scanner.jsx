@@ -15,7 +15,8 @@ const translation =
   "jack": "Jumping Jacks",
   "lateral": "Lateral Raise",
   "crunch": "Crunches",
-  "push": "Push Ups"
+  "push": "Push Ups",
+  "row": "Rows",
 }
 
 
