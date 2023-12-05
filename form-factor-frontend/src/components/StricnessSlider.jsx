@@ -3,6 +3,16 @@ import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import Typography from '@mui/material/Typography';
 
+
+const handleSliderColor = (value) => {
+  if (value <= 20)
+    return "error"
+  if (value <= 50)
+    return "warning"
+  else
+    return "success"
+}
+
 export default function StrictnessSlider({value, setValue, defaultValue = 50}) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -22,6 +32,7 @@ export default function StrictnessSlider({value, setValue, defaultValue = 50}) {
       label: 'Strict',
     },
   ];
+
 
   return (
     <Box sx={{
@@ -56,7 +67,7 @@ export default function StrictnessSlider({value, setValue, defaultValue = 50}) {
                 //     color: 'primary.main', // Change color here
 
                 // }}
-                color="success"
+                color={handleSliderColor(value)}
                 marks={marks}
                 value={value}
                 onChange={handleChange}

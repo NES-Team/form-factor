@@ -15,7 +15,7 @@ function App() {
   return (
     <Box sx={{padding: 10, justifyContent: 'center', alignItems: 'center', display: 'flex', flexDirection: 'column'}}>
       
-      <Box sx={{ width: '60%', justifyContent: 'center', alignItems: 'center', mb: 20}}>
+      <Box sx={{ width: '100%', justifyContent: 'center', alignItems: 'center', mb: 20}}>
         <ExerciseToggleButtons exercise={exercise} setExercise={setExercise}/>
        <Box sx={{padding: 2}}/>
         <StrictnessSlider value={sliderVal} setValue={setSliderVal}/>
@@ -38,7 +38,7 @@ function App() {
       {scanning && 
       <>
         <Box sx={{ width: '80%', justifyContent: 'center', alignItems: 'center' }}>
-          <Connection badFormShared={badFormShared} setBadFormShared={setBadFormShared} exercise={exercise}/>
+          <Connection sliderVal={sliderVal} setBadFormShared={setBadFormShared} exercise={exercise}/>
         </Box>
       </>}
 

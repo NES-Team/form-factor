@@ -8,7 +8,7 @@ const [AX, AY, AZ, GX, GY, GZ] = [0,1,2,3,4,5,6,7]
 
 
 
-export default function Connection({setBadFormShared, badFormShared, exercise}) {
+export default function Connection({setBadFormShared, sliderVal, exercise}) {
   const [sensorData, setSensorData] = useState({ descriptor: '', sensorValue: NaN });
   const [socket, setSocket] = useState(null)
   const [stateArr, setStateArr] = useState([0,0,0,0,0,0])
@@ -52,7 +52,8 @@ export default function Connection({setBadFormShared, badFormShared, exercise}) 
         gx: stateArr[GX],
         gy: stateArr[GY],
         gz: stateArr[GZ],
-        exercise
+        exercise,
+        sliderVal,
     })
     if (badFormRes != null) {
       setBadFormShared(badFormRes)
