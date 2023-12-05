@@ -10,7 +10,7 @@ export default function badForm({ax, ay, az, gx, gy, gz, exercise}){
                 ay < -0.5 || ay > 0.5 || // if arm is leaning too much
                 az > 0
                 ){
-                return false
+                return "slowdown"
             }
             break
         case "jack":
@@ -20,7 +20,7 @@ export default function badForm({ax, ay, az, gx, gy, gz, exercise}){
                 az < -1 || az > 1 // if bad form
                 // ay < -0.2
                 ){
-                return false
+                return "slowdown"
             }
             break
         case "typing":
@@ -32,9 +32,9 @@ export default function badForm({ax, ay, az, gx, gy, gz, exercise}){
                 ay < -0.5 || ay > 0.5 ||
                 ax < 0
                 ){
-                return false
+                return "slowdown"
             }
             break
     }
-    return true
+    return null
 }
