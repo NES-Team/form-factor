@@ -73,7 +73,7 @@ export default function Scanner({scanning, setScanning, badFormShared, form = "b
         Stop Tracking
       </Button>
 
-      {scanning && !badFormShared && (
+      {scanning && badFormShared === null && (
       <StyledAlert
         severity="success"
         sx={{
@@ -103,7 +103,7 @@ export default function Scanner({scanning, setScanning, badFormShared, form = "b
       </StyledAlert>
     )}
 
-    {scanning && badFormShared && (
+    {scanning && badFormShared !== null && (
       <StyledAlert
         severity="error"
         sx={{
@@ -116,8 +116,8 @@ export default function Scanner({scanning, setScanning, badFormShared, form = "b
           Your
           {" "}
           <span style={{ color: '#333333', fontWeight: 'bold' }}>{translation[form]}</span> form
-          {" "} needs improvement
-          <span style={{ color: '##d32f2f', fontWeight: 'bold' }}> (Bad) </span>
+          {" "} needs improvement.
+          <span style={{ color: '##d32f2f', fontWeight: 'bold' }}> ({badFormShared}) </span>
         </AlertTitle>
         
         <LinearProgress

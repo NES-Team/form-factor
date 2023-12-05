@@ -44,20 +44,24 @@ export default function Connection({setBadFormShared, badFormShared, exercise}) 
     stateArr[i] = sensorData.sensorValue
     
     // logic for bad form
-      if (!badForm({
-        ax: stateArr[AX],
+
+    const badFormRes = badForm({
+      ax: stateArr[AX],
         ay: stateArr[AY],
         az: stateArr[AZ],
         gx: stateArr[GX],
         gy: stateArr[GY],
         gz: stateArr[GZ],
         exercise
-      })) {
-        console.log("HEHE GOGO")
-        setBadFormShared(true)
-        setFlag(!flag)
-        console.log("BAD FORM")
-      }
+    })
+
+    if (badFormRes != null) {
+      console.log("HEHE GOGO")
+      setBadFormShared(badFormRes)
+      setFlag(!flag)
+      console.log("BAD FORM")
+    }
+    
       
     
   }

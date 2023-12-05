@@ -8,7 +8,7 @@ function App() {
   const [sliderVal, setSliderVal] = useState(50);
   const [exercise, setExercise] = useState('bicep');
   const [scanning, setScanning] = useState(false);
-  const [badFormShared, setBadFormShared] = useState(false);
+  const [badFormShared, setBadFormShared] = useState(null);
   const [done, setDone] = useState(false);
   const [processing, setProcessing] = useState(false);
 
