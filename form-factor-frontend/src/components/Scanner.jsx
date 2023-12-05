@@ -13,7 +13,9 @@ const translation =
 {
   "bicep": "Bicep Curl",
   "jack": "Jumping Jacks",
-  "typing": "Typing",
+  "lateral": "Lateral Raise",
+  "crunch": "Crunches",
+  "push": "Push Ups"
 }
 
 

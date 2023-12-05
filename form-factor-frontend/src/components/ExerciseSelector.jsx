@@ -6,6 +6,9 @@ import { Box, Typography } from '@mui/material';
 
 const bicep = require('./bicepPng.png')
 const jack = require('./jackPng.png')
+const lateral = require('./lateralPng.png')
+const crunch = require('./crunchPng.png')
+const push = require('./pushPng.png')
 
 export default function ExerciseToggleButtons({ setExercise, exercise, size = '10rem' }) {
   const handleExercise = (
@@ -43,11 +46,17 @@ export default function ExerciseToggleButtons({ setExercise, exercise, size = '1
                     <img src={bicep} alt="bicep curl" style={{ width: size, height: size }} />
                 
             </ToggleButton>
-            <ToggleButton value="jack" aria-label="pushup">
+            <ToggleButton value="jack" aria-label="jumping jacks">
                     <img src={jack} alt="jumping jack" style={{ width: size, height: size }} />
             </ToggleButton>
-            <ToggleButton value="typing" aria-label="rowing">
-                <KeyboardIcon sx={{ fontSize: size }}/>
+            <ToggleButton value="lateral" aria-label="lateral raise">
+                    <img src={lateral} alt="lateral raise" style={{ width: size, height: size }} />
+            </ToggleButton>
+            <ToggleButton value="crunch" aria-label="crunches">
+                    <img src={crunch} alt="crunches" style={{ width: size, height: size }} />
+            </ToggleButton>
+            <ToggleButton value="push" aria-label="push ups">
+                    <img src={push} alt="push up" style={{ width: size, height: size }} />
             </ToggleButton>
             </ToggleButtonGroup>
         </Box>
