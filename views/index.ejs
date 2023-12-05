@@ -10,32 +10,6 @@
 	<div class = "result" style="width: 200px; height: 20px">
 		<p class="result_msg">Standby</p>
 	</div>
-	<!-- <h2>Accelerometer</h2>
-	<h3>ax:</h3>
-	<div class = "ax" style="width: 200px; height: 20px; color: white;">
-		ax
-	</div>
-	<h3>ay:</h3>
-	<div class = "ay" style="width: 200px; height: 20px; color: white;">
-		ay
-	</div>
-	<h3>az:</h3>
-	<div class = "az" style="width: 200px; height: 20px; color: white;">
-		az
-	</div>
-	<h2>Gyroscope</h2>
-	<h3>gx:</h3>
-	<div class = "gx" style="width: 200px; height: 20px; color: white;">
-		gx
-	</div>
-	<h3>gy:</h3>
-	<div class = "gy" style="width: 200px; height: 20px; color: white;">
-		gy
-	</div>
-	<h3>gz:</h3>
-	<div class = "gz" style="width: 200px; height: 20px; color: white;">
-		gz
-	</div> -->
 
 	<div style="width: 200px; height: 20px; color: white;"></div>
 
@@ -84,15 +58,6 @@
 		if (xmlhttp.readyState == 4 && xmlhttp.status == 200 && active) {
 			let responseText = xmlhttp.responseText;
 			let descriptor = responseText.descriptor;
-
-			// use d3 to visualize sensor value as the web page background color
-			// let colorValue = Math.max(0, Math.min((sensorValue + 1) * 0.5, 255)) * 255
-			// console.log(`.${descriptor}:`, colorValue)
-			// let green = colorValue
-			// let red = 255 - colorValue
-			// let color = "rgba(" + red + ", " + green + ", 0, 1)"
-			// d3.select(`.${descriptor}`).style("background-color", color)
-			// d3.select(`.${descriptor}`).text(sensorValue)
 			
 			readSet[0] = time.toFixed(1);
 			readSet[1] = parseFloat(JSON.parse(responseText).ax);

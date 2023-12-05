@@ -1,9 +1,11 @@
-// based on the example on https://www.npmjs.com/package/@abandonware/noble
+const express = require('express');
+const http = require('http');
+const WebSocket = require('ws');
 
-const noble = require('@abandonware/noble');
+const app = express();
+const server = http.createServer(app);
+const wss = new WebSocket.Server({ server });
 
-const uuid_service = "2711"
-const uuid_values = ["2101", "2102", "2103", "2104", "2105", "2106"]
 const characteristicDescriptors = {
   "2101": "ax",
   "2102": "ay",
@@ -13,83 +15,68 @@ const characteristicDescriptors = {
   "2106": "gz",
 }
 
-let sensorValue = NaN
-let readCount = 0
-let readSet = [0, 0, 0, 0, 0, 0]
-// let readValue = [['Acc_x', 'Acc_y', 'Acc_z', 'Gyro_x', 'Gyro_y', 'Gyro_z']];
-let descriptor = ""
+let sensorValue = NaN;
+let descriptor = "";
+let clients = []; // Store connected WebSocket clients
+
+wss.on('connection', (ws) => {
+  // console.log('WebSocket client connected');
+  clients.push(ws);
+
+  ws.on('close', () => {
+    // console.log('WebSocket client disconnected');
+    clients = clients.filter((client) => client !== ws);
+  });
+});
+
+const noble = require('@abandonware/noble');
+
+const uuid_service = "2711";
+const uuid_values = ["2101", "2102", "2103", "2104", "2105", "2106"];
 
 noble.on('stateChange', async (state) => {
-    if (state === 'poweredOn') {
-        console.log("start scanning")
-        await noble.startScanningAsync([uuid_service], false);
-    }
+  if (state === 'poweredOn') {
+    console.log("start scanning");
+    await noble.startScanningAsync([uuid_service], false);
+  }
 });
 
 noble.on('discover', async (peripheral) => {
-    await noble.stopScanningAsync();
-    await peripheral.connectAsync();
-    const {
-        characteristics
-    } = await peripheral.discoverSomeServicesAndCharacteristicsAsync([uuid_service], uuid_values);
-    characteristics.forEach((characteristic) => {
-        readData(characteristic);
-    });
+  await noble.stopScanningAsync();
+  await peripheral.connectAsync();
+  const { characteristics } = await peripheral.discoverSomeServicesAndCharacteristicsAsync([uuid_service], uuid_values);
+  characteristics.forEach((characteristic) => {
+    readData(characteristic);
+  });
 });
 
-//
-// read data periodically
-//
 let readData = async (characteristic) => {
-    const value = (await characteristic.readAsync());
-    descriptor = characteristicDescriptors[characteristic.uuid];
-    sensorValue = value.readFloatLE(0);
-    readSet[readCount] = sensorValue;
-    readCount++;
+  const value = (await characteristic.readAsync());
+  descriptor = characteristicDescriptors[characteristic.uuid];
+  sensorValue = value.readFloatLE(0);
+  console.log(`${descriptor}:`, sensorValue);
 
-    if (readCount == 6){
-        readCount = 0;
+  // Broadcast data to connected WebSocket clients
+  clients.forEach((client) => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(JSON.stringify({ descriptor, sensorValue }));
     }
-    
-    console.log(`${descriptor}:`, sensorValue);
+  });
 
-    // read data again in t milliseconds
-    setTimeout(() => {
-        readData(characteristic)
-    }, 10);
-}
+  // read data again in t milliseconds
+  setTimeout(() => {
+    readData(characteristic);
+  }, 10);
+};
 
-
-
-//
-// hosting a web-based front-end and respond requests with sensor data
-// based on example code on https://expressjs.com/
-//
-const express = require('express')
-const app = express()
-const port = 3000
+const port = 8000;
 
 app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
-    res.render('index')
-})
+  res.render('index');
+});
 
-app.post('/', (req, res) => {
-    res.writeHead(200, {
-        'Content-Type': 'application/json'
-    });
-    res.end(JSON.stringify({
-        descriptor: descriptor,
-        ax: readSet[0],
-        ay: readSet[1],
-        az: readSet[2],
-        gx: readSet[3],
-        gy: readSet[4],
-        gz: readSet[5],
-    }))
-})
-
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
-})
+server.listen(port, () => {
+  console.log(`Example app listening on port ${port}`);
+});
