@@ -54,10 +54,9 @@ export default function Connection({setBadFormShared, badFormShared, exercise}) 
         gz: stateArr[GZ],
         exercise
     })
-
     if (badFormRes != null) {
-      console.log("HEHE GOGO")
       setBadFormShared(badFormRes)
+      console.log("HEHE GOGO")
       setFlag(!flag)
       console.log("BAD FORM")
     }
@@ -72,7 +71,7 @@ export default function Connection({setBadFormShared, badFormShared, exercise}) 
   useEffect(() => {
     const startTimer = () => {
       timeoutId = setTimeout(()=>{
-        setBadFormShared(false)
+        setBadFormShared(null)
 
         startTimer()
       }, 2000)
@@ -158,7 +157,7 @@ export default function Connection({setBadFormShared, badFormShared, exercise}) 
       </TableBody>
     </Table>
   </TableContainer>
-  <button onClick={() => setBadFormShared(true)}>bad form</button> 
+  {/* <button onClick={() => setBadFormShared(true)}>bad form</button>  */}
   </>
   );
 }
