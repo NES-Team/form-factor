@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-
+import badForm from '../utils/vinh';
+import { state } from '@abandonware/noble';
 
 const [AX, AY, AZ, GX, GY, GZ] = [0,1,2,3,4,5,6,7]
 
 
 
 
-export default function Connection({setBadFormShared, badFormShared}) {
+export default function Connection({setBadFormShared, badFormShared, exercise}) {
   const [sensorData, setSensorData] = useState({ descriptor: '', sensorValue: NaN });
   const [socket, setSocket] = useState(null)
   const [stateArr, setStateArr] = useState([0,0,0,0,0,0])
@@ -43,11 +44,22 @@ export default function Connection({setBadFormShared, badFormShared}) {
     stateArr[i] = sensorData.sensorValue
     
     // logic for bad form
-    if (i == GX && sensorData.sensorValue > 30) {
-      setBadFormShared(true)
-      setFlag(!flag)
-      console.log("BAD FORM")
-    }
+      if (!badForm({
+        ax: stateArr[AX],
+        ay: stateArr[AY],
+        az: stateArr[AZ],
+        gx: stateArr[GX],
+        gy: stateArr[GY],
+        gz: stateArr[GZ],
+        exercise
+      })) {
+        console.log("HEHE GOGO")
+        setBadFormShared(true)
+        setFlag(!flag)
+        console.log("BAD FORM")
+      }
+      
+    
   }
 
 

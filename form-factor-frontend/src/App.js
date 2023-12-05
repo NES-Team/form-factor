@@ -38,7 +38,7 @@ function App() {
       {scanning && 
       <>
         <Box sx={{ width: '80%', justifyContent: 'center', alignItems: 'center' }}>
-          <Connection badFormShared={badFormShared} setBadFormShared={setBadFormShared}/>
+          <Connection badFormShared={badFormShared} setBadFormShared={setBadFormShared} exercise={exercise}/>
         </Box>
       </>}
 

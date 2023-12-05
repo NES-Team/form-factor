@@ -84,6 +84,15 @@
 		if (xmlhttp.readyState == 4 && xmlhttp.status == 200 && active) {
 			let responseText = xmlhttp.responseText;
 			let descriptor = responseText.descriptor;
+
+			// use d3 to visualize sensor value as the web page background color
+			// let colorValue = Math.max(0, Math.min((sensorValue + 1) * 0.5, 255)) * 255
+			// console.log(`.${descriptor}:`, colorValue)
+			// let green = colorValue
+			// let red = 255 - colorValue
+			// let color = "rgba(" + red + ", " + green + ", 0, 1)"
+			// d3.select(`.${descriptor}`).style("background-color", color)
+			// d3.select(`.${descriptor}`).text(sensorValue)
 			
 			readSet[0] = time.toFixed(1);
 			readSet[1] = parseFloat(JSON.parse(responseText).ax);

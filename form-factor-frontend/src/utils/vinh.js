@@ -14,16 +14,17 @@ export default function badForm({ax, ay, az, gx, gy, gz, exercise}){
             }
             break
         case "jack":
-            if(gx < -200 || gx > 200 || // if going too fast
+            if(gx < -300 || gx > 300 || // if going too fast
                 gy < -200 || gy > 200||
-                gz < -300 || gz > 300 ||
-                az < -0.5 || az > 0.5 || // if bad form
-                ay < 0
+                gz < -500 || gz > 500 ||
+                az < -1 || az > 1 // if bad form
+                // ay < -0.2
                 ){
                 return false
             }
             break
-        case "lateral":
+        case "typing":
+            // lateral raise info actually
             if(gx < -100 || gx > 100 || // if going too fast
                 gy < -300 || gy > 300||
                 gz < -100 || gz > 100 ||
