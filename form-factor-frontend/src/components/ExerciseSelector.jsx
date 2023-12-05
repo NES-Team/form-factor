@@ -9,6 +9,7 @@ const jack = require('./jackPng.png')
 const lateral = require('./lateralPng.png')
 const crunch = require('./crunchPng.png')
 const push = require('./pushPng.png')
+const row = require('./rowPng.png')
 
 export default function ExerciseToggleButtons({ setExercise, exercise, size = '10rem' }) {
   const handleExercise = (
@@ -57,6 +58,9 @@ export default function ExerciseToggleButtons({ setExercise, exercise, size = '1
             </ToggleButton>
             <ToggleButton value="push" aria-label="push ups">
                     <img src={push} alt="push up" style={{ width: size, height: size }} />
+            </ToggleButton>
+            <ToggleButton value="row" aria-label="rows">
+                    <img src={row} alt="rows" style={{ width: size, height: size }} />
             </ToggleButton>
             </ToggleButtonGroup>
         </Box>
