@@ -84,7 +84,7 @@ export default function badForm({ax, ay, az, gx, gy, gz, exercise, sliderVal}){
 
         case "push":
             if(ax < -0.4 || ax > 0.3 ||
-                ay < -0.5 || ay > 0 || 
+                ay < -0.5 || ay > 0.2 || 
                 az < 0.8){
                 return "Lower Your Hips"
             }
