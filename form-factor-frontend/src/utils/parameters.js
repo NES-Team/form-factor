@@ -6,7 +6,7 @@ export default function badForm({ax, ay, az, gx, gy, gz, exercise, sliderVal}){
     if (sliderVal <= IGNORE)
         return null
     
-    const doSlowDown = sliderVal >= MEDIUM
+    const doSlowDown = sliderVal > MEDIUM
     switch(exercise){
         case "bicep":
 

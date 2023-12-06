@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-import badForm from '../utils/vinh';
+import badForm from '../utils/parameters';
 import { state } from '@abandonware/noble';
 
 const [AX, AY, AZ, GX, GY, GZ] = [0,1,2,3,4,5,6,7]
